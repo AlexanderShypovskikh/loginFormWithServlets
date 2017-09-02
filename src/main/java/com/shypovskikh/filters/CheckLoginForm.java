@@ -7,18 +7,17 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet Filter implementation class FormInterceptor
+ * Servlet Filter implementation class CheckLoginForm
  */
-public class FormInterceptor implements Filter {
+public class CheckLoginForm implements Filter {
 
     /**
      * Default constructor. 
      */
-    public FormInterceptor() {
+    public CheckLoginForm() {
         // TODO Auto-generated constructor stub
     }
 
@@ -26,32 +25,30 @@ public class FormInterceptor implements Filter {
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		 System.out.println("destroy filter");
+		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-        HttpServletRequest req = (HttpServletRequest)request;
-        HttpServletResponse resp = (HttpServletResponse)response; 
-        System.out.println("login="+req.getAttribute("login"));
-        System.out.println("pass="+req.getAttribute("pass"));
-        String login = (String) req.getAttribute("login");
-        String pass = (String) req.getAttribute("pass");
-        
-        if((login == null) || ((String) req.getAttribute("pass") == null))
-        	resp.sendRedirect("index.jsp");
 		
-		chain.doFilter(request, response);
+		System.out.println("login="+request.getParameter("login"));
+		System.out.println("pass="+request.getParameter("pass"));
+		
+		 if((request.getParameter("login") == "") || (request.getParameter("pass") == "")) {
+			 System.out.println("Fill data correctly");
+			 HttpServletResponse resp =  (HttpServletResponse)response;
+			 resp.sendRedirect("index.jsp");
+		     } else
+		  		chain.doFilter(request, response);
 	}
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-	   System.out.println("init filter");
+		System.out.println("init CheckLoginForm filter");
 	}
 
 }

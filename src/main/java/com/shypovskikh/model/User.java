@@ -5,6 +5,8 @@ public class User {
 	private int id;
 	private String login;
 	private String pass;
+	private String firstName;
+	private String lastNmae;
 	
 	public User() {
 		
@@ -31,5 +33,8 @@ public class User {
 		this.pass = pass;
 	}
 	
-
+     public String toString() {
+    	 return this.login;
+     }
+	  
 }

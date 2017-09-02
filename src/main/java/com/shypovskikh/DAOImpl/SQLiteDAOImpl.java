@@ -21,8 +21,14 @@ public class SQLiteDAOImpl implements SQLiteDAO{
 		
 	}
 
-	public void getUser(String login, String pass) {
-		// TODO Auto-generated method stub
+	public User getUser(String login, String pass) {
+		 for(User item: listData) {
+			 if(item.getLogin().equals(login) && 
+					 item.getPass().equals(pass)) 
+                return item;         
+		 }
+		 
+		 return null;
 		
 	}
 

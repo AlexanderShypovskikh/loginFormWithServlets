@@ -5,6 +5,6 @@ import com.shypovskikh.model.User;
 public interface SQLiteDAO {
 	
 	public void addUser(User user);
-	public void getUser(String login, String pass);
+	public User getUser(String login, String pass);
 
 }

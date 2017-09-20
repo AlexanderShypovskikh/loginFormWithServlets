@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.shypovskikh.DAO.SQLiteDAO;
-import com.shypovskikh.DAOImpl.SQLiteDAOImpl;
+import com.shypovskikh.DAO.DAO;
+import com.shypovskikh.DAOImpl.PostgreSQLDAOImpl;
 import com.shypovskikh.model.User;
 
 /**
@@ -37,24 +37,10 @@ public class LoginFormServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         System.out.println("LogintFormServlet...");
-		 String login = request.getParameter("login");
-		 String pass = request.getParameter("pass"); 
-		 System.out.println("login:"+login+" pass:"+pass);
-		 SQLiteDAO data = new SQLiteDAOImpl();
-         User user =  data.getUser(login, pass);
-      
-         if(user != null) {
-        	 request.setAttribute("user", user);
-        	 RequestDispatcher rd = request.getRequestDispatcher("jsp/workpage.jsp");
-        	 rd.forward(request, response);
-         }
-         else {
-        	 String message = "There is no user with login:"+login;
-        	 request.setAttribute("message", message);
-        	 RequestDispatcher rd = request.getRequestDispatcher("jsp/errorMessage.jsp");
-        	 rd.forward(request, response);
-         }
+          
+		     RequestDispatcher rd;
+		    rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
+	 		rd.forward(request, response);
 	}
 
 }

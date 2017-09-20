@@ -16,7 +16,7 @@
 <body>
   <section class="container">
     <div class="login">
-      <h1>Login to Web App</h1>
+      <h1>Internet Coffee Shop</h1>
       <form name="loginForm" method="POST" action="login" onsubmit="return validateForm()">
         <p><input type="text" name="login" value="" placeholder="Email"></p>
         <sub id="loginErr" class="error"></sub>

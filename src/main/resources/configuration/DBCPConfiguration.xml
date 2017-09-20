@@ -1,0 +1,3 @@
+<Context path="/servlets-examples" docBase="servlets-examples" debug="5" reloadable="true" crossContext="true">
+<Resource name="jdbc/MyDataSource" auth="Container" type="javax.sql.DataSource" driverClassName="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@//server:1521/orcl" username="system" password="tiger" maxActive="20" maxIdle="10" maxWait="-1"/>
+</Context>

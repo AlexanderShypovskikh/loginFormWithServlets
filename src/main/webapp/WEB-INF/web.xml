@@ -7,8 +7,8 @@
   <display-name>Archetype Created Web Application</display-name>
   
    <servlet>
-  	<servlet-name>LoginFormServlet</servlet-name>
-  	<servlet-class>com.shypovskikh.servlets.LoginFormServlet</servlet-class>
+  	<servlet-name>LoadMenu</servlet-name>
+  	<servlet-class>com.shypovskikh.servlets.LoadCoffeeMenu</servlet-class>
   </servlet>
  
   <servlet>
@@ -17,8 +17,8 @@
   </servlet>
   
     <servlet-mapping>
-  		<servlet-name>LoginFormServlet</servlet-name>
-  		<url-pattern>/login</url-pattern>
+  		<servlet-name>LoadMenu</servlet-name>
+  		<url-pattern>/getCoffee</url-pattern>
     </servlet-mapping>
   
    <servlet-mapping>

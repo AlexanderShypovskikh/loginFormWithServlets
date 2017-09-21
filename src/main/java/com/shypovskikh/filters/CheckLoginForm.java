@@ -49,7 +49,9 @@ public class CheckLoginForm implements Filter {
 		    Context envContext = (Context) initContext.lookup("java:/comp/env");
 		//	dataSource  = (DataSource) initContext.lookup( "java:/comp/env/jdbc/postgresql");
 		     dataSource = (DataSource)envContext.lookup("jdbc/postgresql");
-		     
+		     System.out.println("dataSource = "+dataSource);
+		     fConfig.getServletContext().setAttribute("dataSource", dataSource);
+		     System.out.println("dataSource = "+fConfig.getServletContext().getAttribute("dataSource"));
 		 //    fConfig.getServletContext().setAttribute("DataSource", dataSource);
 		    System.out.print("using JNDI lookup get the datasource: "+dataSource);
 		} catch (NamingException e) {
@@ -71,7 +73,7 @@ public class CheckLoginForm implements Filter {
 		 String login = request.getParameter("login");
 		 String pass = request.getParameter("password"); 
 		 System.out.println("login:"+login+" pass:"+pass);
-		 
+		   //System.out.println("dataSource = "+(HttpServletRequest)request.con);
 		  DAO data = null;
 		  Connection conn = null;
 	
@@ -88,9 +90,10 @@ public class CheckLoginForm implements Filter {
 		            	rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
 		    	 		rd.forward(request, response);
 		            } else {
-		            	rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
-		    	 		rd.forward(request, response);
-		            	}
+		            	//rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
+		    	 		//rd.forward(request, response);
+		            	doFilter(request, response, chain);
+		               }
 		            } else {
 		            	   
 		   		     RequestDispatcher rd;

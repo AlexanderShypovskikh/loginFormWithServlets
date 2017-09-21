@@ -1,6 +1,7 @@
 package com.shypovskikh.DAOImpl;
-
+import com.shypovskikh.model.Coffee;
 import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,14 +14,11 @@ import com.shypovskikh.DAO.DAO;
 import com.shypovskikh.model.User;
 
 public class PostgreSQLDAOImpl implements DAO{
-	private List<User> listData = new ArrayList<User>();
+	private List<User> listData = new ArrayList<>();
+	private List<Coffee> listCoffee = new ArrayList<>();
 	private Connection conn = null;
 	
 	public PostgreSQLDAOImpl(Connection conn) {
-		User user1 = new User("Alex", "123");
-		User user2 = new User("Antony", "555");
-		listData.add(user1);
-		listData.add(user2);
 		this.conn = conn;
 	}
 
@@ -75,4 +73,47 @@ public class PostgreSQLDAOImpl implements DAO{
 	       
 	 return null;
 	}
+
+	public List<Coffee> getCoffeeList() {
+		 System.out.println("Select list of coffee...");
+		  Statement stmt = null;
+		  ResultSet rs = null;
+		  try {
+		  stmt = conn.createStatement();
+		  String query = "SELECT * from coffeetype where disabled is null";
+		    System.out.println(query);
+	        rs = stmt.executeQuery(query);
+	       
+	        System.out.println("RS = "+rs.getFetchSize());
+	        while(rs.next()) {
+	        int id= rs.getInt("id");
+	        String name = rs.getString("type_name");
+	        double price = rs.getDouble("price");
+	        String disabled = rs.getString("disabled");
+	        
+	         listCoffee.add(new Coffee(id, name, price, disabled));
+	        }
+	         return listCoffee; 
+	        }  catch(Exception e) {
+			   e.printStackTrace();
+		  } finally {
+			  if (rs != null) {
+			      try { rs.close(); } catch (SQLException e) { ; }
+			      rs = null;
+			    }
+			    if (stmt != null) {
+			      try { stmt.close(); } catch (SQLException e) { ; }
+			      stmt = null;
+			    }
+			    if (conn != null) {
+			      try { conn.close(); } catch (SQLException e) { ; }
+			      conn = null;
+			    }
+		   }
+	       
+		return null;
+	}
+
+
+
 }

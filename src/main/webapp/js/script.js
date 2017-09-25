@@ -34,4 +34,17 @@
 	                }
 	        }
   
+   function validateOrder(){
+	   var login = document.forms["loginForm"]["login"].value;
+	   var pass = document.forms["loginForm"]["password"].value;
+	      
+	   if(login == ""){
+		   document.getElementById("loginErr").innerHTML= "Please, enter correct value of Login";
+	       return false;
+	    } else if(pass == ""){
+	    	 document.getElementById("passwordErr").innerHTML= "Please, enter correct value of Password";
+	    	 return false;
+	    } 
+   } 
+   
    

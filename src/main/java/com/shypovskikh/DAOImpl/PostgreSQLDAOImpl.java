@@ -29,20 +29,21 @@ public class PostgreSQLDAOImpl implements DAO{
 
 	public User getUser(String login, String pass) {
 		 System.out.println("Posgres login = "+login+" pass = "+pass);
-		 User user = null;
+		  User user = null;
 	      Statement stmt = null;
 		  ResultSet rs = null;
 		  try {
 		  stmt = conn.createStatement();
 		  String query = "SELECT users.id, users.email,"
 	        		+ " users.first_name, users.last_name,"
-	        		+ "users.password, roles.role_name FROM users"
+	        		+ "users.password,users.address, roles.role_name FROM users"
 	        		+" LEFT JOIN roles ON users.id_role = roles.id_role"
 	        		+" WHERE users.email = '"+login+"' AND users.password='"+pass+"'";
 		    System.out.println(query);
 	        rs = stmt.executeQuery(query);
 	       
 	        System.out.println("RS = "+rs.getFetchSize());
+	       
 	        while(rs.next()) {
 	        int id= rs.getInt("id");
 	        String email = rs.getString("email");
@@ -50,8 +51,8 @@ public class PostgreSQLDAOImpl implements DAO{
 	        String lname = rs.getString("last_name");
 	        String psw = rs.getString("password");
 	        String role = rs.getString("role_name");
-	        
-	         user = new User(id, email, psw,fname, lname,role);
+	        String address = rs.getString("address");
+	         user = new User(id, email, psw,fname, lname,role,address);
 	        }
 	         return user; 
 	        }  catch(Exception e) {

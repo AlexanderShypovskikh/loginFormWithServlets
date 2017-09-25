@@ -298,3 +298,7 @@ tr:hover td {color: #6699ff;}
 	 font-size: 14px;
 	 color:#ff0000;
 }
+
+.coffee_count {
+  size: 20;
+}

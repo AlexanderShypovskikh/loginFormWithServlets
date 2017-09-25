@@ -47,12 +47,10 @@ public class CheckLoginForm implements Filter {
 			//Class.forName("org.postgresql.Driver");
 			Context initContext = new InitialContext();
 		    Context envContext = (Context) initContext.lookup("java:/comp/env");
-		//	dataSource  = (DataSource) initContext.lookup( "java:/comp/env/jdbc/postgresql");
 		     dataSource = (DataSource)envContext.lookup("jdbc/postgresql");
 		     System.out.println("dataSource = "+dataSource);
 		     fConfig.getServletContext().setAttribute("dataSource", dataSource);
 		     System.out.println("dataSource = "+fConfig.getServletContext().getAttribute("dataSource"));
-		 //    fConfig.getServletContext().setAttribute("DataSource", dataSource);
 		    System.out.print("using JNDI lookup get the datasource: "+dataSource);
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
@@ -67,38 +65,35 @@ public class CheckLoginForm implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("login="+request.getParameter("login"));
-		System.out.println("pass="+request.getParameter("password"));
-		
 		 String login = request.getParameter("login");
 		 String pass = request.getParameter("password"); 
-		 System.out.println("login:"+login+" pass:"+pass);
-		   //System.out.println("dataSource = "+(HttpServletRequest)request.con);
+		 System.out.println("Check Filter login :"+login+" pass:"+pass);
+		 
 		  DAO data = null;
 		  Connection conn = null;
-	
-			     conn = getConnection();
-		        if(conn != null) {
-		    	    data = new PostgreSQLDAOImpl(conn);
-		            User user = (User)data.getUser(login, pass);
-		              System.out.println("user = "+user);
+	      RequestDispatcher rd = null;
+          conn = getConnection();
+		  
+                 if(conn != null) {
+		    	    	data = new PostgreSQLDAOImpl(conn);
+		            	User user = (User)data.getUser(login, pass);
+		            	System.out.println("Check Filter user = "+user);
 		            if(user != null) {
-		            	RequestDispatcher rd;
-		                System.out.println("user role "+user.getRole());
-		            if (user.getRole().equals("admin")) {
-		            	request.setAttribute("user", user);
-		            	rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
-		    	 		rd.forward(request, response);
-		            } else {
-		            	//rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
-		    	 		//rd.forward(request, response);
-		            	doFilter(request, response, chain);
-		               }
-		            } else {
-		            	   
-		   		     RequestDispatcher rd;
-		   		    rd = request.getRequestDispatcher("index.jsp");
-		   	 		rd.forward(request, response);}
+		            	System.out.println(user.toString());
+		                System.out.println("Check Filter user role "+user.getRole());
+		                //request.setAttribute("user", user);
+		                request.getServletContext().setAttribute("user", user);
+		              //  	if (user.getRole().equals("admin")) {
+		               // 		request.setAttribute("user", user);
+		               // 		rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
+		               // 		rd.forward(request, response);
+		               // 		} else {
+		                				chain.doFilter(request, response);
+		                //				}
+		            	} else {
+		            		rd = request.getRequestDispatcher("index.jsp");
+		            		rd.forward(request, response);
+		   	 		  		}
 		            }
        
 	}

@@ -49,7 +49,7 @@ public class LoadCoffeeMenu extends HttpServlet {
 		DAO dao = new PostgreSQLDAOImpl(getConnection(request));
 		List<Coffee> listCoffee = dao.getCoffeeList();
 		System.out.println(listCoffee.toString());
-		request.setAttribute("listCoffee", listCoffee);
+		request.getServletContext().setAttribute("listCoffee", listCoffee);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
 		rd.forward(request, response);

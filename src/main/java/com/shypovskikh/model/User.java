@@ -8,22 +8,24 @@ public class User implements Serializable {
 	private String login;
 	private String pass;
 	private String firstName;
-	private String lastNmae;
+	private String lastName;
 	private String role;
+	private String address;
 	
 	public User() {
 		
 	}
 	
 	
-	public User(int id, String login, String pass, String firstName, String lastNmae, String role) {
+	public User(int id, String login, String pass, String firstName, String lastNmae, String role, String addr) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.pass = pass;
 		this.firstName = firstName;
-		this.lastNmae = lastNmae;
+		this.lastName = lastNmae;
 		this.role = role;
+		this.address = addr;
 	}
 
 
@@ -72,13 +74,13 @@ public class User implements Serializable {
 	}
 
 
-	public String getLastNmae() {
-		return lastNmae;
+	public String getLastName() {
+		return lastName;
 	}
 
 
-	public void setLastNmae(String lastNmae) {
-		this.lastNmae = lastNmae;
+	public void setLastName(String lastNmae) {
+		this.lastName = lastName;
 	}
 
 
@@ -89,6 +91,16 @@ public class User implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	  
      

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="com.shypovskikh.model.User" %>
+    <%@ page import="com.shypovskikh.model.Coffee" %>
 <%@ page import="java.util.*" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,13 +14,13 @@
      <div>
      </div>
    <div>
-   <form action="" method="POST">
+   <form action="order" method="POST">
       <table class="coffee-list-table" border ="3px" align="center" >  
         <caption> Delivery:</capation>
          <tr>
              <% User user = (User) request.getServletContext().getAttribute("user"); %>
-           <td>Name</td><td><%=user.getFirstName() %></td>
-           <td>Address</td><td><%=user.getAddress() %></td>
+           <td>Name</td><td><input type="text" name="name" value="<%=user.getFirstName() %>"/></td>
+           <td>Address</td><td><input type="text" name="address" value="<%=user.getAddress() %>"/></td>
            </tr>
            <tr>
               <td><input type="submit" value="Order"></td>
@@ -36,24 +37,23 @@
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th> 
+            
+            
          </tr>
-           <% Map<String,String>coffee = (HashMap)request.getServletContext().getAttribute("coffeeMap"); %>
-           <% System.out.println("map = "+coffee.toString()); %>
-           <% Map<String,String>quantity = (HashMap)request.getServletContext().getAttribute("quantityMap"); %>
-           <% Map<String,Double>price = (HashMap)request.getServletContext().getAttribute("priceMap"); %>
-           <%Iterator iterCoffee = coffee.entrySet().iterator(); %>
-           <%Iterator iterQuant =  quantity.entrySet().iterator(); %>
-           <%Iterator iterPrice = price.entrySet().iterator(); %>
-           
-            <% for (Map.Entry<String, String> entry : coffee.entrySet()) { %>
-             <tr><% String key = entry.getKey(); %>
-             <% String value = entry.getValue(); %>
-            <td><%=value%> </td> 
-            <td><%= price.get(value) %> </td> 
-            <td><%= quantity.get(value) %> </td>
+         
+          
+         <% List<Coffee> list  = (List)request.getAttribute("selectedList"); %>
+         <% List<Integer> quantity = (List) request.getAttribute("quantity"); %>
+             <% for (int i = 0; i < list.size(); i++) { %>
+             <tr>
+            <td><%=list.get(i).getTypeName()%> </td> 
+            <td><%= list.get(i).getPrice() %> </td> 
+            <td><%= quantity.get(i) %> </td>
             </tr>
             <% } %>
-      </table>
+            <tr><td>Total:</td><td><%= request.getAttribute("cost") %></td></tr>
+        
+             </table>
      </div>
    </div>
 </body>

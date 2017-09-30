@@ -18,7 +18,7 @@
  <section class="" align="center">
     <div>
       <h1 align="center" >Coffee assortment</h1>
-        <form action="orderlist" method="POST">
+        <form action="confirmOrder" method="POST">
         <table border="2px">
             <tr>
                 <th></th>
@@ -33,11 +33,11 @@
            <c:forEach items = "${listCoffee}"  var = "coffee">
              <% i++; %>
             <tr>
-            <td><input  type="checkbox" name="checkbox<%= i %>"  value="${coffee.getType_name()}"> </td>
-            <td id="name_type"> <c:out value = "${coffee.getType_name()}"/></td>
+            <td><input  type="checkbox" name="checkbox" value="<%=i%>" > </td>
+            <td id="name_type"> <c:out value = "${coffee.getTypeName()}"/></td>
             <td id ><c:out value = "${coffee.getPrice()}"/></td>
             <input type="hidden" name="price<%= i %>" value="${coffee.getPrice()}">
-            <td><input type="number" name="quantity<%= i %>" class="coffee_count" size="3" min="null" max="100" maxlength="3"></td>
+            <td><input type="number" name="quantity" class="coffee_count" size="3" min="null" max="100" maxlength="3"></td>
             </tr>
          </c:forEach>
            <tr>

@@ -18,6 +18,13 @@
   	<servlet-name>OrderListServlet</servlet-name>
   	<servlet-class>com.shypovskikh.servlets.OrderListServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>SaveOrderListServlet</display-name>
+  	<servlet-name>SaveOrderListServlet</servlet-name>
+  	<servlet-class>com.shypovskikh.servlets.SaveOrderListServlet</servlet-class>
+  </servlet>
   
     <servlet-mapping>
   		<servlet-name>LoadMenu</servlet-name>
@@ -30,7 +37,11 @@
   </servlet-mapping>
    <servlet-mapping>
    	<servlet-name>OrderListServlet</servlet-name>
-   	<url-pattern>/orderlist</url-pattern>
+   	<url-pattern>/confirmOrder</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+   	<servlet-name>SaveOrderListServlet</servlet-name>
+   	<url-pattern>/order</url-pattern>
    </servlet-mapping>
   
   

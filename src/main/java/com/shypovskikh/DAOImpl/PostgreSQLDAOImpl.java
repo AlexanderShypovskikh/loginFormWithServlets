@@ -1,11 +1,16 @@
 package com.shypovskikh.DAOImpl;
 import com.shypovskikh.model.Coffee;
-import java.sql.Connection;
+import com.shypovskikh.model.CoffeeOrder;
+import com.shypovskikh.model.CoffeeOrderItem;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +81,7 @@ public class PostgreSQLDAOImpl implements DAO{
 	}
 
 	public List<Coffee> getCoffeeList() {
-		 System.out.println("Select list of coffee...");
+		  System.out.println("Select list of coffee...");
 		  Statement stmt = null;
 		  ResultSet rs = null;
 		  try {
@@ -85,7 +90,7 @@ public class PostgreSQLDAOImpl implements DAO{
 		    System.out.println(query);
 	        rs = stmt.executeQuery(query);
 	       
-	        System.out.println("RS = "+rs.getFetchSize());
+	      //  System.out.println("RS = "+rs.getFetchSize());
 	        while(rs.next()) {
 	        int id= rs.getInt("id");
 	        String name = rs.getString("type_name");
@@ -113,6 +118,35 @@ public class PostgreSQLDAOImpl implements DAO{
 		   }
 	       
 		return null;
+	}
+
+	
+	
+	@Override
+	public int saveCoffeeOrder(CoffeeOrder order, CoffeeOrderItem item) {
+	    String query = "insert into CoffeeOrder (order_date, name, delivery_address,cost) values (?,?,?,?)";
+	    ResultSet rs = null; 
+	    PreparedStatement pstm = null;
+	    
+	    try {
+	    	conn.setAutoCommit(false);
+	    	pstm = conn.prepareStatement(query);
+	    	pstm.setTimestamp(1, (Timestamp) order.getOrderDate());
+	    	pstm.setString(2, order.getName());
+	    	pstm.setString(3, order.getDeliveryAddr());
+	    	pstm.setDouble(4, order.getCost());
+	    	
+	    	
+	    }catch(SQLException e) {
+	    	e.printStackTrace();
+	    }
+		return 0;
+	}
+
+	@Override
+	public void saveCoffeeItem(int type, int orderId, int quantity) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -1,9 +1,12 @@
 package com.shypovskikh.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.shypovskikh.model.Coffee;
 import com.shypovskikh.model.Order;
 import com.shypovskikh.model.OrderItem;
 
@@ -42,52 +46,32 @@ public class OrderListServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    OrderItem item = null;
 	    Order order = null;
-		//String[] checks = request.getParameterValues("check");
-	//	String[] quantity = request.getParameterValues("quantity");
-	     Map paramsMap = request.getParameterMap();
-	     Enumeration enumeration =  request.getParameterNames(); 
-	     Iterator iterator = paramsMap.entrySet().iterator();
-	     Map<String, String> checkMap = new HashMap();
-	     Map<String, String> quantMap = new HashMap();
-	     Map<String,Double> priceMap = new HashMap();
-	     String name;
-	     String[] value;
-	     while(iterator.hasNext()) {
-	    	 Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>)iterator.next();
-	    	 name = entry.getKey();
-	    	 value = entry.getValue();
-	    	 if(name.startsWith("checkbox")) {
-	    		 System.out.println("name = "+name);
-	    		 for(int i =0; i < value.length;i++)
-	    		 System.out.println("value = "+value[i]);
-	    		 checkMap.put(name, value[0]);
-	    		 request.setAttribute(name, value);
-	    		 String ends = name.replace("checkbox", "");
-	    		 System.out.println("ends = "+ends);
-	    		 String quant ="quantity".concat(ends);
-	    		 System.out.println("quantity = "+quant);
-	    	  	  String[] numbers = (String[]) paramsMap.get(quant);
-	    	  	  request.setAttribute(quant, numbers[0]);
-	    		 String price = "price".concat(ends);
-	    		 String[] prices = (String[]) paramsMap.get(price);
-	    	  	 double q = Double.parseDouble(numbers[0]);
-	    	  	 double p = Double.parseDouble(prices[0]);
-	    	  	 
-	    	  	 System.out.println("quantity = "+numbers[0]);
-	    		 quantMap.put(value[0], numbers[0]);
-	    		 priceMap.put(value[0], p*q);
-	    		 
-	    		 
-	    	 }
-	     }
-	     
-	     System.out.println("coffee:"+checkMap.toString());
-	     System.out.println("quantMap:"+quantMap.toString());
-	     System.out.println("priceMap:"+priceMap.toString());
-	     request.getServletContext().setAttribute("coffeeMap", checkMap);
-	     request.getServletContext().setAttribute("quantityMap", quantMap);
-	     request.getServletContext().setAttribute("priceMap", priceMap);
-		 
+		 double total = 0;
+         List<Coffee> orderList = new ArrayList();
+         List<Coffee> list = (ArrayList)request.getServletContext().getAttribute("listCoffee");
+	     String[] params  = request.getParameterValues("checkbox"); 
+	    List<Integer> quantity = new ArrayList();
+         String[] paramsQuant = request.getParameterValues("quantity");
+       
+        System.out.println("coffee is empty = "+list.toString());
+         System.out.println("chekbox = "+Arrays.toString(params));
+          System.out.print("params quant = "+Arrays.toString(paramsQuant));
+	
+           int id = 0;
+             for(int i = 0; i < params.length; i++ ) {
+          	  orderList.add(list.get(Integer.parseInt(params[i]) -1));
+          	   id = Integer.parseInt(params[i]);
+          	   //System.out.print();
+          	  quantity.add(Integer.parseInt(paramsQuant[id-1]));
+          	  
+          	  total += quantity.get(i)*orderList.get(i).getPrice();
+            }
+            request.setAttribute("selectedList", orderList);
+            request.setAttribute("quantity", quantity);
+  	        request.setAttribute("cost", total);
+  	    
+  	     
+     
 	     RequestDispatcher rd = request.getRequestDispatcher("jsp/orderList.jsp");
 			rd.forward(request, response);
 	}

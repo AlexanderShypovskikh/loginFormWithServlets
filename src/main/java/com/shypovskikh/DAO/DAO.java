@@ -1,7 +1,10 @@
 package com.shypovskikh.DAO;
+import java.util.Date;
 import java.util.List;
 
 import com.shypovskikh.model.Coffee;
+import com.shypovskikh.model.CoffeeOrder;
+import com.shypovskikh.model.CoffeeOrderItem;
 import com.shypovskikh.model.User;
 
 public interface DAO {
@@ -10,5 +13,9 @@ public interface DAO {
 	public User getUser(String login, String pass);
 	
 	public List<Coffee> getCoffeeList();
+	
+	public int saveCoffeeOrder(CoffeeOrder coffeeOrder, CoffeeOrderItem item);
+	
+	public void saveCoffeeItem(int type, int orderId, int quantity);
 
 }

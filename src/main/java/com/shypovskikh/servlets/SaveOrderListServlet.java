@@ -3,6 +3,8 @@ package com.shypovskikh.servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,15 +49,18 @@ public class SaveOrderListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DAO dao = new PostgreSQLDAOImpl(getConnection(request));
-		Date date = new Date();
-		String name = request.getParameter("name");
-		String address = request.getParameter("address");
-		double cost = (double)request.getAttribute("total");
-		CoffeeOrder  order = new CoffeeOrder(date, name, address,cost);
+		Timestamp date =  new Timestamp(System.currentTimeMillis());
+	    String name = request.getParameter("name");
+	    String address = request.getParameter("address");
+		//System.out.println("address = "+ address);
+	   double cost = (double)request.getServletContext().getAttribute("total");
+	//	System.out.println("cost = "+ cost);
+		CoffeeOrder  order = new CoffeeOrder(date, name, address, 75);
 		CoffeeOrderItem item = new CoffeeOrderItem();
-		int  id = dao.saveCoffeeOrder(order, item);
+		List<CoffeeOrderItem> items = (ArrayList) request.getServletContext().getAttribute("orderedList");
+		int  id = dao.saveCoffeeOrder(order, items);
 		
-		
+	
 		
 		//RequestDispatcher rd = request.getRequestDispatcher("jsp/coffeeList.jsp");
 		//rd.forward(request, response);

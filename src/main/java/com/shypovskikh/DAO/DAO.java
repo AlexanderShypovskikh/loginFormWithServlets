@@ -14,7 +14,7 @@ public interface DAO {
 	
 	public List<Coffee> getCoffeeList();
 	
-	public int saveCoffeeOrder(CoffeeOrder coffeeOrder, CoffeeOrderItem item);
+	public int saveCoffeeOrder(CoffeeOrder coffeeOrder, List<CoffeeOrderItem> items);
 	
 	public void saveCoffeeItem(int type, int orderId, int quantity);
 

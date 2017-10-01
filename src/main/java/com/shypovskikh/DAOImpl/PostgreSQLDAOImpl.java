@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -123,22 +124,61 @@ public class PostgreSQLDAOImpl implements DAO{
 	
 	
 	@Override
-	public int saveCoffeeOrder(CoffeeOrder order, CoffeeOrderItem item) {
-	    String query = "insert into CoffeeOrder (order_date, name, delivery_address,cost) values (?,?,?,?)";
+	public int saveCoffeeOrder(CoffeeOrder order, List<CoffeeOrderItem> items) {
+		System.out.println("orders : "+order.toString());
+		System.out.println("orderItems : "+items.toString());
+		String queryAddOrder = "insert into CoffeeOrder (order_date, name, delivery_address,cost) values (?,?,?,?)";
+	    String queryAddItem = "insert into coffeeorderitem (type_id, id_order, quantity) values (?,?,?)"; 
+	    String getOrderId = "select * from CoffeeOrder where order_date = ?";
 	    ResultSet rs = null; 
 	    PreparedStatement pstm = null;
-	    
+	    Savepoint savepoint = null;
 	    try {
 	    	conn.setAutoCommit(false);
-	    	pstm = conn.prepareStatement(query);
+	    	savepoint  = conn.setSavepoint(); 
+	    	
+	    	pstm = conn.prepareStatement(queryAddOrder);
 	    	pstm.setTimestamp(1, (Timestamp) order.getOrderDate());
 	    	pstm.setString(2, order.getName());
 	    	pstm.setString(3, order.getDeliveryAddr());
 	    	pstm.setDouble(4, order.getCost());
+	    	System.out.println("query1 = "+pstm.toString());
+	    	pstm.execute();
+	    	//conn.commit();
+	    	
+	    	pstm = conn.prepareStatement(getOrderId,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+	    	pstm.setTimestamp(1,(Timestamp) order.getOrderDate());
+	    	System.out.println("query2 = "+pstm.toString());
+	    	rs = pstm.executeQuery();
+	    	int id = 0;
+	    	while(rs.next()) {
+	    	 id = rs.getInt("id");
+	    	 System.out.println("id from rs = "+id);
+	    	}
+	    	//System.out.println("id from rs = "+id);
+	    	
+	    	
+	    	for(CoffeeOrderItem item : items) {
+	            pstm = conn.prepareStatement(queryAddItem);
+	    		pstm.setInt(1, item.getType());
+	    		pstm.setInt(2, id);
+	    		pstm.setInt(3, item.getQuantity());
+	    		pstm.execute();
+	    		
+	    	}
+	    	conn.commit();
+	    	
 	    	
 	    	
 	    }catch(SQLException e) {
 	    	e.printStackTrace();
+	    	try {
+	    		System.out.println("׀מככ ֱ‎ך!!!");
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    }
 		return 0;
 	}

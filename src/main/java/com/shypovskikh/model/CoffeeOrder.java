@@ -1,17 +1,18 @@
 package com.shypovskikh.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class CoffeeOrder {
 	
-	private  Date orderDate; 
+	private  Timestamp orderDate; 
 	private String name; 
 	private String deliveryAddr;
 	private double cost;
 	
 	public CoffeeOrder() {}
 	
-	public CoffeeOrder(Date orderDate, String name, String deliveryAddr, double cost) {
+	public CoffeeOrder(Timestamp orderDate, String name, String deliveryAddr, double cost) {
 		super();
 		this.orderDate = orderDate;
 		this.name = name;
@@ -21,7 +22,7 @@ public class CoffeeOrder {
 	public Date getOrderDate() {
 		return orderDate;
 	}
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(Timestamp orderDate) {
 		this.orderDate = orderDate;
 	}
 	public String getName() {

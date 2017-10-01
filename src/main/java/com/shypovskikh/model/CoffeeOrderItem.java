@@ -9,6 +9,11 @@ public class CoffeeOrderItem {
 	public CoffeeOrderItem() {}
 	
 	
+	public CoffeeOrderItem(int type, int quantity) {
+		super();
+		this.type = type;
+		this.quantity = quantity;
+	}
 	public CoffeeOrderItem(int type, int quantity, int orderId) {
 		super();
 		this.type = type;

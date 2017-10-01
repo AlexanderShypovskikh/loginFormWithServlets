@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ page import="com.shypovskikh.model.User" %>
     <%@ page import="com.shypovskikh.model.Coffee" %>
+    <%@ page import="com.shypovskikh.model.CoffeeOrderItem"%>
 <%@ page import="java.util.*" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -42,13 +43,13 @@
          </tr>
          
           
-         <% List<Coffee> list  = (List)request.getAttribute("selectedList"); %>
-         <% List<Integer> quantity = (List) request.getAttribute("quantity"); %>
+         <% List<Coffee> list  = (List)request.getServletContext().getAttribute("selectedList"); %>
+         <% List<CoffeeOrderItem> item = (List) request.getServletContext().getAttribute("orderedList"); %>
              <% for (int i = 0; i < list.size(); i++) { %>
              <tr>
             <td><%=list.get(i).getTypeName()%> </td> 
             <td><%= list.get(i).getPrice() %> </td> 
-            <td><%= quantity.get(i) %> </td>
+            <td><%= item.get(i).getQuantity() %> </td>
             </tr>
             <% } %>
             <tr><td>Total:</td><td><%= request.getAttribute("cost") %></td></tr>
